@@ -67,8 +67,8 @@ public abstract class LibOpenConnect {
 
 	/* create/destroy library instances */
 
-	public LibOpenConnect() {
-		libctx = init("OpenConnect VPN Agent (Java)");
+	public LibOpenConnect(String useragent) {
+		libctx = init(useragent);
 	}
 
 	public synchronized void destroy() {
@@ -119,6 +119,7 @@ public abstract class LibOpenConnect {
 	public synchronized native void setDPD(int minSeconds);
 	public synchronized native int setProxyAuth(String methods);
 	public synchronized native int setHTTPProxy(String proxy);
+	public synchronized native int setProtocol(String proxy);
 	public synchronized native void setXMLSHA1(String hash);
 	public synchronized native void setHostname(String hostname);
 	public synchronized native void setUrlpath(String urlpath);

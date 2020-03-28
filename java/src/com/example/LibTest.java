@@ -38,6 +38,10 @@ public final class LibTest {
 	}
 
 	private static class TestLib extends LibOpenConnect {
+    public TestLib(String useragent) {
+      super(useragent);
+    }
+
 		@Override
 		public int onValidatePeerCert(String msg) {
 			System.out.println("cert warning: " + msg);
@@ -206,7 +210,7 @@ public final class LibTest {
 
 	public static void main(String argv[]) {
 		System.loadLibrary("openconnect-wrapper");
-		LibOpenConnect lib = new TestLib();
+		LibOpenConnect lib = new TestLib("Mozilla");
 
 		if (argv.length != 1)
 			die("usage: LibTest <server_name>");
@@ -224,6 +228,7 @@ public final class LibTest {
 			lib.setCSDWrapper("csd.sh", null, null);
 		}
 		lib.parseURL(argv[0]);
+    lib.setProtocol("nc");
 		lib.setSystemTrust(true);
 		int ret = lib.obtainCookie();
 		if (ret < 0)
