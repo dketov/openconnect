@@ -18,7 +18,7 @@ EXTRA_CFLAGS :=
 # You should be able to just 'make ARCH=x86' and it should DTRT.
 ifeq ($(ARCH),arm)
 TRIPLET := arm-linux-androideabi
-API_LEVEL := 14
+API_LEVEL := 16
 EXTRA_CFLAGS := -march=armv7-a -mthumb
 endif
 ifeq ($(ARCH),arm64)
@@ -27,7 +27,7 @@ API_LEVEL := 26
 endif
 ifeq ($(ARCH),x86)
 TRIPLET := i686-linux-android
-API_LEVEL := 14
+API_LEVEL := 16
 endif
 ifeq ($(ARCH),x86_64)
 TRIPLET := x86_64-linux-android
@@ -81,7 +81,7 @@ all: openconnect run_pie
 $(TOOLCHAIN_BUILT):
 	$(NDK)/build/tools/make-standalone-toolchain.sh $(TOOLCHAIN_OPTS) || \
 		$(NDK)/build/tools/make-standalone-toolchain.sh \
-			$(TOOLCHAIN_OPTS) --system=linux-x86_64
+			$(TOOLCHAIN_OPTS)
 	touch $@
 
 #####################################################################
@@ -228,7 +228,7 @@ $(GNUTLS_SRC)/configure: $(GNUTLS_TAR)
 $(GNUTLS_BUILD)/Makefile: $(TOOLCHAIN_BUILT) $(GNUTLS_SRC)/configure $(NETTLE_DEPS)
 	mkdir -p $(GNUTLS_BUILD)
 	cd $(GNUTLS_BUILD) && ../../$(GNUTLS_SRC)/configure $(CONFIGURE_ARGS) \
-		AUTOGEN=/bin/true \
+		AUTOGEN=/usr/bin/autogen \
 		--disable-threads --disable-tests --without-zlib --disable-nls \
 		--disable-doc --disable-openssl-compatibility --disable-cxx \
 		--disable-openssl-compatibility --disable-ocsp \
@@ -236,7 +236,7 @@ $(GNUTLS_BUILD)/Makefile: $(TOOLCHAIN_BUILT) $(GNUTLS_SRC)/configure $(NETTLE_DE
 		--enable-psk-authentication --disable-srp-authentication \
 		--disable-dtls-srtp-support  --enable-dhe --enable-ecdhe \
 		--disable-rsa-export --with-included-libtasn1 \
-		--with-included-unistring --without-p11-kit
+		--with-included-unistring --without-p11-kit --enable-local-libopts
 
 $(GNUTLS_BUILD)/lib/libgnutls.la: $(GNUTLS_BUILD)/Makefile
 	$(MAKE) -C $(GNUTLS_BUILD)

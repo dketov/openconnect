@@ -89,6 +89,7 @@ noinst_PROGRAMS = $(C_TESTS) serverhash
 
 serverhash_SOURCES = serverhash.c
 serverhash_LDADD = ../libopenconnect.la $(SSL_LIBS)
+serverhash_LDFLAGS = -fuse-ld=gold
 
 # Nothing actually *depends* on the cert files; they are created manually
 # and considered part of the sources, committed to the git tree. But for
